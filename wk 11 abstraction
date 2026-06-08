@@ -1,0 +1,333 @@
+from abc import ABC, abstractmethod
+
+class classname(ABC):
+    pass
+
+
+@abstractmethod
+def abstractmethod_name():
+    pass
+
+
+from abc import ABC
+
+
+from abc import ABC, abstractmethod
+
+class Product(ABC):                    
+    def item_list(self, rate):
+        print("amount submitted : ", rate)
+    
+    @abstractmethod
+    def product(self, rate):                      
+        pass
+
+class ConcreteProduct(Product):
+    def product(self, rate):
+        print("Product rate applied: ", rate)
+
+r = ConcreteProduct()
+r.product(3)
+r.item_list(2)
+
+
+from abc import ABC, abstractmethod
+
+class geometric(ABC):
+    @abstractmethod
+    def volume(self):
+        pass
+    
+class Rect(geometric):
+    length = 4
+    width = 6
+    height = 6
+    def volume(self):
+        return self.length * self.width * self.height
+    
+class Sphere(geometric):
+    radius = 8
+    def volume(self):
+        return 1.3 * 3.14 * self.radius * self.radius * self.radius
+    
+class Cube(geometric):
+    Edge = 5
+    def volume(self):
+        return self.Edge * self.Edge * self.Edge
+    
+class triangle_3D:
+    length = 5
+    width = 4
+    def volume(self):
+        return 0.5 * self.length * self.width
+    
+rr = Rect()
+ss = Sphere()
+cc = Cube()
+tt = triangle_3D()
+print("Volume of a rectangle:", rr.volume())
+print("Volume of a circle:", ss.volume())
+print("Volume of a square:", cc.volume())
+print("Volume of a triangle:", tt.volume())
+
+
+from abc import ABC, abstractmethod
+
+class Invoice(ABC):
+    def final_bill(self, pay):
+        print('Purchase of the product: ', pay)
+        
+    @abstractmethod
+    def invoice(self, pay):
+        pass
+    
+class Paycheque(Invoice):
+    def invoice(self, pay):
+        print('Paycheque of: ', pay)
+        
+class CardPayment(Invoice):
+    def invoice(self, pay):
+        print('Pay through card of: ', pay)
+        
+class payment():
+    def invoice(self, pay):
+        print('Pay through card of: ', pay)
+    
+aa = Paycheque()
+aa.invoice(6500)
+aa.final_bill(6500)
+print(isinstance(aa, payment))
+
+aa = CardPayment()
+aa.invoice(2600)
+aa.final_bill(2600)
+print(isinstance(aa, Invoice))
+
+
+from abc import ABC, abstractmethod
+
+class Animal(ABC):
+    @abstractmethod
+    def move(self):
+        pass
+
+class Human(Animal):
+    def move(self):
+        print("I can walk and run")
+
+class Snake(Animal):
+    def move(self):
+        print("I can crawl")
+
+class Dog(Animal):
+    def move(self):
+        print("I can walk and run")
+
+class Lion(Animal):
+    def move(self):
+        print("I can run")
+
+human = Human()
+human.move()
+
+snake = Snake()
+snake.move()
+
+dog = Dog()
+dog.move()
+
+lion = Lion()
+lion.move()
+
+
+from abc import ABC, abstractmethod
+
+class Zinc(ABC):
+    def rk(self):
+        print("Class Zinc is an Abstract Base Class")
+
+class Tin(Zinc):
+    def rk(self):
+        super().rk()
+        print("Class Tin is a subclass ")
+
+r = Tin()
+r.rk()
+
+
+from abc import ABC, abstractmethod
+
+class Bank(ABC):
+    def branch(self, Naira):
+        print("Fees submitted : ", Naira)
+   
+    @abstractmethod
+    def Bank(self, Naira):
+        pass
+    
+class private(Bank):
+    def Bank(self, Naira):
+        print("Total Naira Value here: ", Naira)
+        
+class public(Bank):
+    def Bank(self, Naira):
+        print("Total Naira Value here:", Naira)
+
+a_private = private()
+a_private.Bank(5000)
+
+a_public = public()
+a_public.Bank(2000)
+
+a = public()
+a.branch(3500)
+
+
+from abc import ABC, abstractmethod
+
+class coup_de_ecriva(ABC):
+    @abstractmethod
+    def Fan_Page(self):
+        pass
+
+class FC_Cirok(coup_de_ecriva):
+    def Fan_Page(self):
+        print("Welcome to FC Cirok")
+
+class Madiba_FC(coup_de_ecriva):
+    def Fan_Page(self):
+        print("Welcome to Madiba FC")
+
+class Blue_Jay_FC(coup_de_ecriva):
+    def Fan_Page(self):
+        print("Welcome to Blue Jay FC")
+
+class TSG_Walker(coup_de_ecriva):
+    def Fan_Page(self):
+        print("Welcome to TSG Walker")
+
+club_input = input("Enter the club you support: ").strip().lower()
+
+if club_input == "fc cirok":
+    obj = FC_Cirok()
+    obj.Fan_Page()
+elif club_input == "madiba fc":
+    obj = Madiba_FC()
+    obj.Fan_Page()
+elif club_input in ["blue jay fc", "blue_jay_fc"]:
+    obj = Blue_Jay_FC()
+    obj.Fan_Page()
+elif club_input == "tsg walker":
+    obj = TSG_Walker()
+    obj.Fan_Page()
+else:
+    print("Invalid Club Name")
+
+
+import tkinter as tk
+from tkinter import messagebox, ttk
+from abc import ABC, abstractmethod
+
+class External_Vendors(ABC):
+    @abstractmethod
+    def menu(self):
+        pass
+
+class CooperativeHostel(External_Vendors):
+    def menu(self):
+        return [
+            ("Jollof Rice and Stew", 200),
+            ("White Rice and Stew", 200),
+            ("Fried Rice", 200),
+            ("Salad", 100),
+            ("Plantain", 100)
+        ]
+
+class FaithHostel(External_Vendors):
+    def menu(self):
+        return [
+            ("Fried Rice", 400),
+            ("White Rice and Stew", 400),
+            ("Jollof Rice", 400),
+            ("Beans", 200),
+            ("Chicken", 1000)
+        ]
+
+class StudentCenter(External_Vendors):
+    def menu(self):
+        return [
+            ("Chicken Fried Rice", 800),
+            ("Pomo Sauce", 300),
+            ("Spaghetti Jollof", 500),
+            ("Amala/Ewedu", 500),
+            ("Semo with Eforiro Soup", 500)
+        ]
+
+class VendorPortal:
+    def __init__(self):
+        self.root = tk.Tk()
+        self.root.title("PAU External Food Vendors Management System")
+        self.root.geometry("500x450")
+        self.root.config(bg="#f8fafc")
+
+        self.title_label = tk.Label(
+            self.root, 
+            text="PAU External Food Vendors Portal", 
+            font=("Helvetica", 14, "bold"), 
+            bg="#f8fafc", 
+            fg="#0f172a"
+        )
+        self.title_label.pack(pady=15)
+
+        self.vendor_label = tk.Label(self.root, text="Select Vendor of Interest:", font=("Helvetica", 11), bg="#f8fafc")
+        self.vendor_label.pack(pady=5)
+
+        self.vendors = ["Cooperative Hostel", "Faith Hostel", "Student Center"]
+        self.vendor_combobox = ttk.Combobox(self.root, values=self.vendors, font=("Helvetica", 10), state="readonly", width=25)
+        self.vendor_combobox.set("Cooperative Hostel")
+        self.vendor_combobox.pack(pady=5)
+
+        self.view_btn = tk.Button(
+            self.root, 
+            text="Display Menu", 
+            font=("Helvetica", 11, "bold"), 
+            bg="#0284c7", 
+            fg="white", 
+            width=18, 
+            command=self.show_vendor_menu
+        )
+        self.view_btn.pack(pady=15)
+
+        self.menu_frame = tk.LabelFrame(self.root, text="Vendor Menu Details", font=("Helvetica", 10, "bold"), bg="#f8fafc", padx=10, pady=10)
+        self.menu_frame.pack(pady=10, fill="both", expand=True, padx=25)
+
+        self.menu_text = tk.Text(self.menu_frame, font=("Helvetica", 11), bg="white", wrap="word")
+        self.menu_text.pack(fill="both", expand=True)
+
+    def show_vendor_menu(self):
+        selected = self.vendor_combobox.get()
+        
+        if selected == "Cooperative Hostel":
+            vendor_obj = CooperativeHostel()
+        elif selected == "Faith Hostel":
+            vendor_obj = FaithHostel()
+        elif selected == "Student Center":
+            vendor_obj = StudentCenter()
+        else:
+            return
+
+        items = vendor_obj.menu()
+        self.menu_text.delete("1.0", tk.END)
+        self.menu_text.insert(tk.END, "Menu for " + selected + ":\n")
+        self.menu_text.insert(tk.END, "=" * 35 + "\n")
+        self.menu_text.insert(tk.END, f"{'Main Meal':<25}{'Price (N)':<10}\n")
+        self.menu_text.insert(tk.END, "-" * 35 + "\n")
+        
+        for meal, price in items:
+            self.menu_text.insert(tk.END, f"{meal:<25}N{price:<10}\n")
+
+    def run(self):
+        self.root.mainloop()
+
+    portal = VendorPortal()
+    portal.run()
