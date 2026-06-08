@@ -1,0 +1,66 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score, precision_score, recall_score, confusion_matrix
+
+diabetes_df = pd.read_csv("diabetes.csv")
+
+print("--- DataFrame Head ---")
+print(diabetes_df.head())
+
+print("\n--- DataFrame Information ---")
+print(diabetes_df.info())
+
+print("\n--- Descriptive Statistics ---")
+print(diabetes_df.describe())
+
+missing_values = diabetes_df.isnull().sum()
+print("\n--- Missing Values Counter ---")
+print(missing_values)
+
+columns_with_zeros = ['Glucose', 'BloodPressure', 'SkinThickness', 'Insulin', 'BMI']
+for col in columns_with_zeros:
+    diabetes_df[col] = diabetes_df[col].replace(0, np.nan)
+
+for col in columns_with_zeros:
+    median_val = diabetes_df[col].median()
+    diabetes_df[col] = diabetes_df[col].fillna(median_val)
+
+print("\n--- Summary Statistics Post Data Imputation ---")
+print(diabetes_df.describe())
+
+plt.figure(figsize=(10, 8))
+sns.heatmap(diabetes_df.corr(), annot=True, cmap="YlGnBu", fmt=".2f")
+plt.title("Correlation Matrix Heatmap")
+plt.show()
+
+X = diabetes_df.drop(columns=['Outcome'])
+y = diabetes_df['Outcome']
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.20, random_state=42, stratify=y)
+
+scaler = StandardScaler()
+X_train_scaled = scaler.fit_transform(X_train)
+X_test_scaled = scaler.transform(X_test)
+
+log_reg_model = LogisticRegression(max_iter=1000)
+log_reg_model.fit(X_train_scaled, y_train)
+
+y_pred = log_reg_model.predict(X_test_scaled)
+
+acc = accuracy_score(y_test, y_pred)
+prec = precision_score(y_test, y_pred)
+rec = recall_score(y_test, y_pred)
+conf_matrix = confusion_matrix(y_test, y_pred)
+
+print("\n--- Model Evaluation Results ---")
+print(f"Accuracy Score  : {acc:.4f}")
+print(f"Precision Score : {prec:.4f}")
+print(f"Recall Score    : {rec:.4f}")
+print("\nConfusion Matrix Output:")
+print(conf_matrix)
