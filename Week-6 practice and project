@@ -285,7 +285,3 @@ class DeliveryCalculator:
 
     def run(self):
         self.root.mainloop()
-
-
-if __name__ == "__main__":
-    print("--- Running Initial Code Setup Tests ---")
