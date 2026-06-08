@@ -1,0 +1,399 @@
+import tkinter as tk
+from tkinter import messagebox
+from tkinter import ttk
+
+class Person(object):
+
+    def __init__(self, name):
+        self.name = name
+
+    def getname(self):
+        return self.name
+
+    def isEmployee(self):
+        return False
+    
+
+class Employee(Person):
+
+    def isEmployee(self):
+        return True
+
+
+emp = Person("Segun Da-Silver")
+print(emp.getname(), emp.isEmployee())
+
+emp = Employee("Omotayo Ayeni")
+print(emp.getname(), emp.isEmployee())
+
+
+class PersonParent(object):
+
+    def __init__(self, name, idnumber):
+        self.name = name
+        self.idnumber = idnumber
+            
+    def display(self):
+        print("Name:", self.name)
+        print("ID No.:", self.idnumber)
+        print("Salary:", self.salary)
+
+
+class EmployeeChild(PersonParent):
+    def __init__(self, name, idnumber, salary, post):
+        self.salary = salary
+        self.post = post
+        PersonParent.__init__(self, name, idnumber)
+
+
+a = EmployeeChild('Adedoyin Adeniji', 886012, 200000, "Intern")
+a.display()
+
+
+class A:
+    surname = "Moru"
+    
+    def __init__(self, n = 'Emmanuel Abbah'):
+        self.name = n
+        
+
+class B(A):
+    def __init__(self, roll):
+        self.roll = roll
+        A.__init__(self)
+        
+
+project = B(23)
+print(project.name)
+
+
+class parents: 
+    def func1(self):
+        print("This function is in parent class.")
+
+
+class Child(parents):
+    def func2(self):
+        print("This function is in child class.")
+
+
+object_single = Child()
+object_single.func1()
+object_single.func2()
+
+
+class Mother: 
+    mothername = "Caroline Aina"
+    def mother(self):
+        print(self.mothername)
+
+
+class Father:
+    fathername = "Paul Abiodun"
+    def father(self):
+        print(self.fathername)
+
+
+class Son(Mother, Father):
+    def parents(self):
+        print("Father :", self.fathername)
+        print("Mother :", self.mothername)
+
+
+s1 = Son()
+s1.parents()
+
+
+class Grandfather:
+
+    def __init__(self, grandfathername):
+        self.grandfathername = grandfathername
+
+
+class FatherMulti(Grandfather):
+    def __init__(self, fathername, grandfathername):
+        self.fathername = fathername
+        Grandfather.__init__(self, grandfathername)
+
+
+class SonMulti(FatherMulti):
+    def __init__(self, sonname, fathername, grandfathername):
+        self.sonname = sonname
+        FatherMulti.__init__(self, fathername, grandfathername)
+
+    def print_name(self):
+        print('Grandfather name :', self.grandfathername)
+        print("Father name :", self.fathername)
+        print("Son name :", self.sonname)
+
+
+s1_multi = SonMulti('Gbenga', 'Oluwafemi', 'Adeoke')
+print(s1_multi.grandfathername)
+s1_multi.print_name()
+
+
+class ParentHierarchical:
+    def func1(self):
+        print("This function is in parent class.")
+
+
+class Child1(ParentHierarchical):
+    def func2(self):
+        print("This function is in child 1.")
+
+
+class Child2(ParentHierarchical):
+    def func3(self):
+        print("This function is in child 2.")
+
+
+object1 = Child1()
+object2 = Child2()
+object1.func1()
+object1.func2()
+object2.func1()
+object2.func3()
+
+
+class School:
+    def func1(self):
+        print("This function is in school.")
+
+
+class Student1(School):
+    def func2(self):
+        print("This function is in student 1. ")
+
+
+class Student2(School):
+    def func3(self):
+        print("This function is in student 2.")
+
+
+class Student3(Student1, School):
+    def func4(self):
+        print("This function is in student 3.")
+
+
+object_hybrid = Student3()
+object_hybrid.func1()
+object_hybrid.func2()
+
+
+print(len("Department of Computer Science"))
+print(len([10, 20, 30, 40, 50, 60, 70]))
+
+
+def add(x, y, z=0, w=6): 
+    return x + y + z + w
+
+
+print(add(2, 3))
+print(add(2, 3, 4))
+print(add(2, 3, 5, 6))
+
+
+class Nigeria:
+    def capital(self):
+        print("Lagos is the capital of Nigeria.")
+
+    def language(self):
+        print("English is the official language of Nigeria.")
+
+    def type(self):
+        print("Nigeria is the giant of Africa.")
+
+
+class Togo:
+    def capital(self):
+        print("Lome is the capital of Togo.")
+
+    def language(self):
+        print("French is the primary language of Togo.")
+
+    def type(self):
+        print("Togo is known for its palm-lined beaches and hilltop villages.")
+
+
+obj_naija = Nigeria()
+obj_togo = Togo()
+for country in (obj_naija, obj_togo):
+    country.capital()
+    country.language()
+    country.type()
+
+
+class Bird:
+    def intro(self):
+        print("There are many types of birds.")
+
+    def flight(self):
+        print("Most of the birds can fly but some cannot.")
+
+
+class sparrow(Bird):
+    def flight(self):
+        print("Sparrows can fly.")
+
+
+class ostrich(Bird):
+    def flight(self):
+        print("Ostriches cannot fly.")
+
+
+obj_bird = Bird()
+obj_spr = sparrow()
+obj_ost = ostrich()
+
+obj_bird.intro()
+obj_bird.flight()
+
+obj_spr.intro()
+obj_spr.flight()
+
+obj_ost.intro()
+obj_ost.flight()
+
+
+data = {"a": 3, "b": 7, "c": 1}
+print(len(data))
+
+
+class zenith:
+    def mutual_services(self):
+        return [
+            "Lines of credit",
+            "Investment management and accounts",
+            "Insurance"
+        ]
+
+    def unique_services(self):
+        return []
+
+
+class RetailBanking(zenith):
+    def unique_services(self):
+        return [
+            "Retirement and education accounts",
+            "loans and mortgagges",
+            "Checking and saving"
+        ]
+
+
+class GlobalBanking(zenith):
+    def mutual_services(self):
+        return []
+
+    def unique_services(self):
+        return [
+            "Multi-currency management services and products",
+            "Foreign currency accounts",
+            "Foreign currency credit cards",
+            "Transborder advisory services",
+            "Liquidity management"
+        ]
+
+
+class CommercialBanking(zenith):
+    def unique_services(self):
+        return [
+            "Advisory services"
+        ]
+
+
+class ZenithPortal:
+    def __init__(self):
+        self.root = tk.Tk()
+        self.root.title("Zenith Bank Division Services Portal")
+        self.root.geometry("500{c}450".format(c="x"))
+        self.root.config(bg="#f4f4f6")
+
+        self.title_label = tk.Label(
+            self.root, 
+            text="Zenith Bank Employee Portal", 
+            font=("Helvetica", 14, "bold"), 
+            bg="#f4f4f6", 
+            fg="#1a365d"
+        )
+        self.title_label.pack(pady=15)
+
+        self.name_label = tk.Label(self.root, text="Employee Name:", font=("Helvetica", 11), bg="#f4f4f6")
+        self.name_label.pack(pady=2)
+        
+        self.name_entry = tk.Entry(self.root, font=("Helvetica", 11), width=30)
+        self.name_entry.pack(pady=5)
+
+        self.div_label = tk.Label(self.root, text="Select Division:", font=("Helvetica", 11), bg="#f4f4f6")
+        self.div_label.pack(pady=2)
+
+        self.divisions = ["Retail Banking", "Global Banking", "Commercial Banking"]
+        self.div_combobox = ttk.Combobox(self.root, values=self.divisions, font=("Helvetica", 10), state="readonly", width=28)
+        self.div_combobox.set("Retail Banking")
+        self.div_combobox.pack(pady=5)
+
+        self.submit_btn = tk.Button(
+            self.root, 
+            text="Fetch Services", 
+            font=("Helvetica", 11, "bold"), 
+            bg="#1a365d", 
+            fg="white", 
+            width=20, 
+            command=self.display_division_services
+        )
+        self.submit_btn.pack(pady=15)
+
+        self.result_frame = tk.LabelFrame(self.root, text="Rendered Services Result", font=("Helvetica", 10, "bold"), bg="#f4f4f6", padx=10, pady=10)
+        self.result_frame.pack(pady=10, fill="both", expand=True, padx=20)
+
+        self.result_text = tk.Text(self.result_frame, font=("Helvetica", 10), bg="white", wrap="word", height=10)
+        self.result_text.pack(fill="both", expand=True)
+
+    def display_division_services(self):
+        emp_name = self.name_entry.get().strip()
+        selected_div = self.div_combobox.get()
+
+        if not emp_name:
+            messagebox.showwarning("Validation Error", "Please enter an employee name.")
+            return
+
+        if selected_div == "Retail Banking":
+            division_obj = RetailBanking()
+        elif selected_div == "Global Banking":
+            division_obj = GlobalBanking()
+        elif selected_div == "Commercial Banking":
+            division_obj = CommercialBanking()
+        else:
+            messagebox.showerror("Error", "Invalid division selected.")
+            return
+
+        mutual = division_obj.mutual_services()
+        unique = division_obj.unique_services()
+
+        self.result_text.delete("1.0", tk.END)
+        
+        greeting = "Employee: " + emp_name + "\n"
+        division_info = "Division: " + selected_div + "\n"
+        separator = "=" * 40 + "\n\n"
+        
+        self.result_text.insert(tk.END, greeting)
+        self.result_text.insert(tk.END, division_info)
+        self.result_text.insert(tk.END, separator)
+
+        if mutual:
+            self.result_text.insert(tk.END, "Mutual Services:\n")
+            for service in mutual:
+                self.result_text.insert(tk.END, " - " + service + "\n")
+            self.result_text.insert(tk.END, "\n")
+
+        if unique:
+            self.result_text.insert(tk.END, "Unique/Exclusive Services:\n")
+            for service in unique:
+                self.result_text.insert(tk.END, " - " + service + "\n")
+
+    def run(self):
+        self.root.mainloop()
+
+
+if __name__ == "__main__":
+    portal = ZenithPortal()
+    portal.run()
