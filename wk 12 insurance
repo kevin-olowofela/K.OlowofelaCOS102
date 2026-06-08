@@ -1,0 +1,114 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import LabelEncoder
+from sklearn.linear_model import LinearRegression
+from sklearn.tree import DecisionTreeRegressor
+from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_error
+
+# ==========================================
+# 1. DATA LOADING & EXPLORATION
+# ==========================================
+df = pd.read_csv("insurance.csv")
+
+print("--- DataFrame Information ---")
+print(df.info())
+
+print("\n--- Missing Values Counter ---")
+print(df.isna().sum())
+
+# Plotting the correlation heatmap of the dataset
+plt.figure(figsize=(10, 8))
+sns.heatmap(df.corr(numeric_only=True), annot=True, cmap='coolwarm')
+plt.title('Correlation Heatmap')
+plt.show()
+
+# Counting the male vs female data points
+plt.figure(figsize=(10, 8))
+sns.countplot(x='sex', data=df)
+plt.title("Gender Count")
+plt.show()
+
+# Comparing the charges between the genders
+plt.figure(figsize=(10, 8))
+sns.boxplot(x='sex', y='charges', data=df)
+plt.title("Gender vs Charges")
+plt.show()
+
+# Plotting the relationship between bmi and charges
+plt.figure(figsize=(10, 8))
+sns.scatterplot(x='bmi', y='charges', data=df, hue='region', size='smoker')
+plt.title('BMI vs Charges showing region and smoker population')
+plt.show()
+
+
+# ==========================================
+# 2. DATA PREPROCESSING & ENCODING
+# ==========================================
+# Encoding categorical data columns
+le = LabelEncoder()
+df['sex'] = le.fit_transform(df['sex'])
+df['smoker'] = le.fit_transform(df['smoker'])
+df['region'] = le.fit_transform(df['region'])
+
+print("\n--- Processed Head DataFrame ---")
+print(df.head())
+
+
+# ==========================================
+# 3. DATASET SPLITTING
+# ==========================================
+X = df.drop('charges', axis=1)
+y = df['charges']
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=20)
+
+
+# ==========================================
+# 4. LINEAR REGRESSION MODEL
+# ==========================================
+print("\n=== LINEAR REGRESSION MODEL ===")
+lr = LinearRegression()
+lr.fit(X_train, y_train)
+
+# Model explainability weights
+print("Coefficients:", lr.coef_)
+print("Intercept:", lr.intercept_)
+
+# Model evaluations
+y_pred_lr = lr.predict(X_test)
+
+r2_lr = r2_score(y_test, y_pred_lr)
+mse_lr = mean_squared_error(y_test, y_pred_lr)
+mae_lr = mean_absolute_error(y_test, y_pred_lr)
+
+print(f"R² Score              : {r2_lr:.4f}")
+print(f"Mean Squared Error    : {mse_lr:.4f}  (Large due to squared residuals scale)")
+print(f"Root Mean Squared Error: {np.sqrt(mse_lr):.4f} (Brings error back to unit currency scale)")
+print(f"Mean Absolute Error   : {mae_lr:.4f}")
+
+
+# ==========================================
+# 5. DECISION TREE REGRESSOR MODEL
+# ==========================================
+print("\n=== DECISION TREE REGRESSOR ===")
+dt = DecisionTreeRegressor(random_state=20)
+dt.fit(X_train, y_train)
+
+# Feature Importance Metric
+print("Feature Importances:", dt.feature_importances_)
+
+# Model evaluations
+y_pred_dt = dt.predict(X_test)
+
+r2_dt = r2_score(y_test, y_pred_dt)
+mse_dt = mean_squared_error(y_test, y_pred_dt)
+mae_dt = mean_absolute_error(y_test, y_pred_dt)
+
+print(f"R² Score              : {r2_dt:.4f}")
+print(f"Mean Squared Error    : {mse_dt:.4f}")
+print(f"Root Mean Squared Error: {np.sqrt(mse_dt):.4f}")
+print(f"Mean Absolute Error   : {mae_dt:.4f}")
