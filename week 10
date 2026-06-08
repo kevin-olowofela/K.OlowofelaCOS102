@@ -1,0 +1,187 @@
+import psycopg2
+from psycopg2 import sql
+
+host = "your_host"
+port = "your_port"
+dbname = "your_database_name"
+user = "your_username"
+password = "your_password"
+
+try:
+    connection = psycopg2.connect(
+        host=host,
+        port=port,
+        dbname=dbname,
+        user=user,
+        password=password
+    )
+    print("Connection to PostgreSQL DB successful")
+
+    cursor = connection.cursor()
+
+    cursor.execute("SELECT version();")
+    
+    db_version = cursor.fetchone()
+    print(f"PostgreSQL database version: {db_version}")
+
+    cursor.close()
+    connection.close()
+
+except Exception as error:
+    print(f"Error connecting to PostgreSQL DB: {error}")
+
+
+try:
+    connection = psycopg2.connect(
+        host=host,
+        port=port,
+        dbname=dbname,
+        user=user,
+        password=password
+    )
+    print("Connection to PostgreSQL DB successful")
+
+    cursor = connection.cursor()
+
+    select_query = "SELECT * FROM company;"
+
+    cursor.execute(select_query)
+
+    data = cursor.fetchall()
+
+    print("column1", " | ", "column2")
+    print("------------------------")
+        
+    for row in data:
+        print(f"{row[0]}       |  {row[1]}")
+
+    cursor.close()
+    connection.close()
+
+except Exception as error:
+    print(f"Error connecting to PostgreSQL DB: {error}")
+
+
+new_dbname = "cos102_db"
+
+try:
+    connection = psycopg2.connect(
+        host=host,
+        port=port,
+        dbname=dbname,
+        user=user,
+        password=password
+    )
+    connection.autocommit = True  
+    print("Connection to PostgreSQL server successful")
+
+    cursor = connection.cursor()
+
+    create_db_query = sql.SQL("CREATE DATABASE {}").format(sql.Identifier(new_dbname))
+
+    cursor.execute(create_db_query)
+    print(f"Database '{new_dbname}' created successfully")
+
+    cursor.close()
+    connection.close()
+
+except Exception as error:
+    print(f"Error creating the database: {error}")
+
+
+try:
+    connection = psycopg2.connect(
+        host=host,
+        port=port,
+        dbname=dbname,
+        user=user,
+        password=password
+    )
+    
+    print("Connection to PostgreSQL DB successful")
+
+    cursor = connection.cursor()
+
+    create_table_query = """
+    CREATE TABLE sst_info (
+        id SERIAL PRIMARY KEY,
+        name VARCHAR(50) NOT NULL,
+        age INT NOT NULL,
+        department VARCHAR NOT NULL,
+        password VARCHAR NOT NULL
+    );
+    """
+
+    cursor.execute(create_table_query)
+    print("Table created successfully")
+
+    cursor.close()
+    connection.close()
+
+except Exception as error:
+    print(f"Error creating table: {error}")
+
+
+try:
+    connection = psycopg2.connect(
+        host=host,
+        port=port,
+        dbname=dbname,
+        user=user,
+        password=password
+    )
+    connection.autocommit = True  
+    print("Connection to PostgreSQL DB successful")
+
+    cursor = connection.cursor()
+
+    insert_query = """
+    INSERT INTO sst_info (id, name, age, department, password)
+    VALUES (%s, %s, %s, %s, %s);
+    """
+    
+    data_to_insert = (1, "Jamel Ojo", 20, "Software Engineering", "anthelo4")
+
+    cursor.execute(insert_query, data_to_insert)
+    print("Data inserted successfully")
+
+    cursor.close()
+    connection.close()
+
+except Exception as error:
+    print(f"Error inserting data: {error}")
+
+
+db_params = {
+    'dbname': 'your_db',
+    'user': 'your_user',
+    'password': 'your_password',
+    'host': 'your_host',
+    'port': 'your_port'  
+}
+
+connection = None
+cursor = None
+
+try:
+    connection = psycopg2.connect(**db_params)
+
+    cursor = connection.cursor()
+
+    select_query = "SELECT * FROM sst_info WHERE age < 30"
+
+    cursor.execute(select_query)
+
+    results = cursor.fetchall()
+
+    for row in results:
+        print(row)
+
+except Exception as error:
+    print(f"Error while connecting to PostgreSQL: {error}")
+
+finally:
+    if cursor:
+        cursor.close()
+    if connection:
+        connection.close()
