@@ -1,0 +1,228 @@
+import pandas as pd
+import tkinter as tk
+from tkinter import messagebox, ttk
+
+class Employee:
+    def __init__(self, name, salary, project):
+        self.name = name
+        self.salary = salary
+        self.project = project
+
+    def show(self):
+        print("Name: ", self.name, 'Salary:', self.salary)
+
+    def work(self):
+        print(self.name, 'is working on project', self.project)
+
+emp = Employee('Akinola Samuel', 8000, 'Data Analysis')
+
+emp.show()
+emp.work()
+
+
+class EmployeePrivate:
+    def __init__(self, name, salary):
+        self.name = name
+        self.__salary = salary
+
+
+emp_priv = EmployeePrivate('Jide', 80000)
+
+
+class EmployeeAccess:
+    def __init__(self, name, salary):
+        self.name = name
+        self.__salary = salary
+
+    def show(self):
+        print("Name: ", self.name, 'Salary:', self.__salary)
+
+emp_acc = EmployeeAccess('Jide', 80000)
+emp_acc.show()
+
+
+class EmployeeBase:
+    def __init__(self, name, salary):
+        self.name = name
+        self.__salary = salary
+
+
+emp_base = EmployeeBase('Adesuwa', 10000)
+print('Name:', emp_base.name)
+print('Salary:', emp_base._EmployeeBase__salary)
+
+
+class Company:
+    def __init__(self):
+        self._project = "Blockchain"
+
+
+class EmployeeChild(Company):
+    def __init__(self, name):
+        self.name = name
+        Company.__init__(self)
+
+    def show(self):
+        print("Employee name :", self.name)
+        print("Working on project :", self._project)
+
+c = EmployeeChild("Seyi")
+c.show()
+
+print(c._project)
+
+
+class Student:
+    def __init__(self, name, age):
+        self.name = name
+        self.__age = age
+
+    def get_age(self):
+        return self.__age
+
+    def set_age(self, age):
+        self.__age = age
+
+stud = Student('Iyanu', 14)
+print('Name:', stud.name, stud.get_age())
+
+stud.set_age(16)
+print('Name:', stud.name, stud.get_age())
+
+
+class StudentAcc:
+    def __init__(self, name, roll_no, age):
+        self.name = name
+        self._roll_no = roll_no
+        self.__age = age
+
+    def show(self):
+        print('Anand', self.name, self._roll_no, self.__age)
+
+    def get_age(self):
+        return self.__age
+
+    def set_age(self, age):
+        self.__age = age
+
+stud_acc = StudentAcc('Anand', 10, 15)
+stud_acc.show()
+
+
+class EmployeeGetterSetter:
+    def __init__(self, name, salary):
+        self.name = name
+        self.__salary = salary
+
+    def get_salary(self):
+        return self.__salary
+
+    def set_salary(self, salary):
+        self.__salary = salary
+
+emp_gs = EmployeeGetterSetter('Jide', 10000)
+print('Name:', emp_gs.name, 'Salary:', emp_gs.get_salary())
+
+emp_gs.set_salary(20000)
+print('Name:', emp_gs.name, 'Salary:', emp_gs.get_salary())
+
+
+data = {
+    'Student ID': [1810, 1811, 1812, 1813, 1814, 1815, 1816, 1817, 1818, 1819, 1820, 1821, 1822, 1823, 1824, 1825, 1826, 1827, 1828, 1829, 1830],
+    'Name': ['Aina Segun', 'Samiat Olalere', 'Caroline Joshua', 'Chidi Onuoha', 'Eze Michael', 'Kalu Ofon', 'Lekan Shoneye', 'Durojaiye Adamu', 'Kolawole Alabi', 'Tope Ogunleye', 'Wilfred Nwachukwu', 'Mildred James', 'Glory Babalola', 'Edith Ade', 'Godwin Osahon', 'Philip Odion', 'Adelabu Glory', 'Igor Lawal', 'Abraham Esther', 'Agbara Jamiat', 'Gbemisola Adewale'],
+    'Age': [23, 20, 22, 25, 21, 24, 23, 24, 27, 22, 16, 15, 21, 22, 20, 19, 26, 20, 28, 26, 21],
+    'Score': [74, 56, 67, 83, 50, 72, 60, 60, 67, 54, 45, 70, 69, 57, 51, 68, 78, 55, 89, 67, 80]
+}
+df = pd.DataFrame(data)
+print(df)
+
+
+class RecordSearch:
+    def __init__(self, dataframe):
+        self.__df = dataframe
+
+    def search_by_name(self, name):
+        result = self.__df[self.__df['Name'].str.lower() == name.lower()]
+        return result
+
+
+class StudentPortal:
+    def __init__(self, dataframe):
+        self.backend = RecordSearch(dataframe)
+        
+        self.root = tk.Tk()
+        self.root.title("SST Student Record Portal")
+        self.root.geometry("550x450")
+        self.root.config(bg="#f1f5f9")
+
+        self.title_label = tk.Label(
+            self.root, 
+            text="Student Administration Portal", 
+            font=("Helvetica", 15, "bold"), 
+            bg="#f1f5f9", 
+            fg="#1e293b"
+        )
+        self.title_label.pack(pady=15)
+
+        self.search_frame = tk.Frame(self.root, bg="#f1f5f9")
+        self.search_frame.pack(pady=10)
+
+        self.prompt_label = tk.Label(self.search_frame, text="Enter Student Name:", font=("Helvetica", 11), bg="#f1f5f9")
+        self.prompt_label.pack(side="left", padx=5)
+
+        self.name_entry = tk.Entry(self.search_frame, font=("Helvetica", 11), width=25)
+        self.name_entry.pack(side="left", padx=5)
+
+        self.search_btn = tk.Button(
+            self.search_frame, 
+            text="Search Record", 
+            font=("Helvetica", 10, "bold"), 
+            bg="#0f172a", 
+            fg="white", 
+            command=self.execute_search
+        )
+        self.search_btn.pack(side="left", padx=5)
+
+        self.display_frame = tk.LabelFrame(
+            self.root, 
+            text="Student Information Profile", 
+            font=("Helvetica", 10, "bold"), 
+            bg="#f1f5f9", 
+            padx=15, 
+            pady=15
+        )
+        self.display_frame.pack(pady=20, fill="both", expand=True, padx=25)
+
+        self.output_text = tk.Text(self.display_frame, font=("Helvetica", 11), bg="white", wrap="word", height=10)
+        self.output_text.pack(fill="both", expand=True)
+
+    def execute_search(self):
+        search_name = self.name_entry.get().strip()
+
+        if not search_name:
+            messagebox.showwarning("Validation Error", "Please provide a valid name to query.")
+            return
+
+        matching_rows = self.backend.search_by_name(search_name)
+
+        self.output_text.delete("1.0", tk.END)
+
+        if matching_rows.empty:
+            messagebox.showerror("Record Not Found", "No registered profile matches that name.")
+            return
+
+        for index, row in matching_rows.iterrows():
+            profile_summary = (
+                "Student ID   : " + str(row['Student ID']) + "\n"
+                "Full Name    : " + str(row['Name']) + "\n"
+                "Age          : " + str(row['Age']) + " years\n"
+                "Academic Score: " + str(row['Score']) + "\n"
+                + "=" * 35 + "\n\n"
+            )
+            self.output_text.insert(tk.END, profile_summary)
+
+    def run(self):
+        self.root.mainloop()
+
+    portal = StudentPortal(df)
+    portal.run()
